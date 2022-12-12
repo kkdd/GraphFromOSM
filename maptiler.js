@@ -1,5 +1,4 @@
 
-const KEY_MAPTILER = 'gRH9lMBOcae1wkylfAhY';
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 
 const map = new maplibregl.Map({
