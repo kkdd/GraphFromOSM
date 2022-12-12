@@ -29,7 +29,6 @@
 <script type="module">
 
 import {graphFromOsm} from './index.js';
-import {map} from './maptiler.js';
 
 // const graphFromOsm = require('graph-from-osm');              // Import module
 
@@ -41,22 +40,28 @@ const mySettings = {                                         // Define my settin
 
 const generateGraph = async (settings) => {
   const osmData = await graphFromOsm.getOsmData(settings);   // Import OSM raw data
-  const graph = graphFromOsm.osmDataToGraph(osmData)         // Here is your graph
-  console.log("Your graph contains " + graph.features.length + " nodes ans links.");
+  const graph = graphFromOsm.osmDataToGraph(osmData);         // Here is your graph
+  console.log("Your graph contains " + graph.features.length + " nodes and links.");
+  return graph;
 }
 
-generateGraph(mySettings);                                   // Execution
+// generateGraph(mySettings);                                   // Execution
 
+
+
+// Display the graph on a map.
+import {map} from './maptiler.js';
 
 map.on("load", () => {
   (async() => {
+	  const graph = await generateGraph(mySettings);
+  	console.log(graph);
 //	osmData = await getOsmData(mySettings);  // Import OSM raw data
 //	console.log(Object.fromEntries(['nodes', 'ways'].map(type => [type, osmData[type].length])));
 //	const graph = generateGraphDegree2(osmData);
 //	addGeojsonFeatures('osm_sample', graph.edges.concat(graph.vertices));
   })();
 });
-
 
 </script>
 </body>

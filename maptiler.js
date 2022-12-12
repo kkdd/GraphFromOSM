@@ -1,4 +1,6 @@
 
+import {KEY_MAPTILER} from './key/maptiler.js'
+
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 
 const map = new maplibregl.Map({

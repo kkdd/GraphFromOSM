@@ -2,3 +2,6 @@ img/
 node_modules/
 package-lock.json
 .npmignore
+.DS_Store
+key/
+
