@@ -1,4 +1,6 @@
-const { areSettingsCorrect } = require('./are-settings-correct.js');
+
+import {areSettingsCorrect} from './are-settings-correct.js';
+//const { areSettingsCorrect } = require('./are-settings-correct.js');
 
 /*
 --------------------------------------------------------------------------------
@@ -39,7 +41,8 @@ const generateOsmScript = (settings) => {
   // OSM script to execute on https://overpass-turbo.eu or https://overpass-api.de/api/interpreter
   // Author: Matsvei Tsishyn
   // Settings --------------------------------------------------------------------
-  [out:json][bbox:${bbox}][timeout:${settings.timeout}][maxsize:${settings.maxContentLength}];
+  [out:json][bbox:${bbox}];
+//  [out:json][bbox:${bbox}][timeout:${settings.timeout}][maxsize:${settings.maxContentLength}];
 
   // Find all way elements -------------------------------------------------------
   (
@@ -64,5 +67,5 @@ const generateOsmScript = (settings) => {
 }
 
 
-
-module.exports = { generateOsmScript };
+export {generateOsmScript};
+//module.exports = { generateOsmScript };

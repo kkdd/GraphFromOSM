@@ -78,7 +78,7 @@ const nodeToFeature = (node) => {
 // Transforms a way OSM element to a geojson "Point" feature -------------------
 const wayToFeature = (link, nodeId) => {
   const coordinates = link.nodes.map( d => nodeId.get(d).coordinates);
-  return out = {
+  return {
     type: 'Feature',
     src: link.src,
     tgt: link.tgt,
@@ -114,5 +114,5 @@ const assignIds = (nodes, links) => {
 }
 
 
-
-module.exports = { decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds };
+export {decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds};
+//module.exports = { decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds };

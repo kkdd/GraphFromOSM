@@ -1,4 +1,6 @@
-const { decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds } = require('./tools');
+
+import {decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds} from './tools.js';
+//const { decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds } = require('./tools');
 
 /*
 --------------------------------------------------------------------------------
@@ -69,4 +71,6 @@ const osmDataToGraph = (osmData) => {
   return graph;
 }
 
-module.exports = { osmDataToGraph };
+
+export {osmDataToGraph};
+//module.exports = { osmDataToGraph };

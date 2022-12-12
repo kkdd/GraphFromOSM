@@ -1,5 +1,8 @@
-const axios = require('axios');
-const { generateOsmScript } = require('./generate-osm-script.js');
+
+import {generateOsmScript} from './generate-osm-script.js';
+//import {axios} from 'https://unpkg.com/axios/dist/axios.min.js';
+//const axios = require('axios');
+//const { generateOsmScript } = require('./generate-osm-script.js');
 
 
 /*
@@ -28,5 +31,5 @@ const getOsmData = async (settings) => {
 }
 
 
-
-module.exports = { getOsmData };
+export {getOsmData};
+//module.exports = { getOsmData };

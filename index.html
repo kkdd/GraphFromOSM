@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Graph from OSM</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<!--<script src="https://tyrasd.github.io/osmtogeojson/osmtogeojson.js"></script>-->
+	<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+	<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
+<!--	<script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+	<link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />-->
+	<!--<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>-->
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+		#map {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+<div id="map"></div>
+<script type="module">
+
+import {graphFromOsm} from './index.js';
+import {map} from './maptiler.js';
+
+// const graphFromOsm = require('graph-from-osm');              // Import module
+
+const mySettings = {                                         // Define my settings
+  bbox: [4.3841, 50.8127, 4.3920, 50.8182],                          // Geographical rectangle
+  highways: ["primary", "secondary", "tertiary", "residential"],     // Type of roads to consider
+  timeout: 600000000, maxContentLength: 1500000000                   // OSM query parameters
+}
+
+const generateGraph = async (settings) => {
+  const osmData = await graphFromOsm.getOsmData(settings);   // Import OSM raw data
+  const graph = graphFromOsm.osmDataToGraph(osmData)         // Here is your graph
+  console.log("Your graph contains " + graph.features.length + " nodes ans links.");
+}
+
+generateGraph(mySettings);                                   // Execution
+
+
+map.on("load", () => {
+  (async() => {
+//	osmData = await getOsmData(mySettings);  // Import OSM raw data
+//	console.log(Object.fromEntries(['nodes', 'ways'].map(type => [type, osmData[type].length])));
+//	const graph = generateGraphDegree2(osmData);
+//	addGeojsonFeatures('osm_sample', graph.edges.concat(graph.vertices));
+  })();
+});
+
+
+</script>
+</body>
+</html>
