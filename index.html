@@ -5,7 +5,6 @@
 	<title>Graph from OSM</title>
 	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<!--<script src="https://tyrasd.github.io/osmtogeojson/osmtogeojson.js"></script>-->
 	<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
 	<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
 	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
@@ -27,12 +26,11 @@
 <script type="module">
 
 import {graphFromOsm} from './index.js';
-
 // const graphFromOsm = require('graph-from-osm');              // Import module
 
+// 1) Generate a graph.
 const mySettings = {                                         // Define my settings
-//  bbox: [139.3505, 35.4179, 139.4238, 35.45038],
-  bbox: [4.376, 50.812, 4.398, 50.828],                          // Geographical rectangle
+  bbox: [4.372, 50.812, 4.398, 50.828],                          // Geographical rectangle
   highways: ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link", "residential", "unclassified", "road", "service"],     // Type of roads to consider
   timeout: 600000000, maxContentLength: 1500000000                   // OSM query parameters
 }
@@ -47,66 +45,16 @@ const generateGraph = async (settings) => {
 // generateGraph(mySettings);                                   // Execution
 
 
-
-// Display the graph on a map.
-import {map} from './maptiler.js';
+// 2) Display the graph on a map.
+import {map, addGeojsonFeatures} from './maplibregl.js';
 
 map.on("load", () => {
   (async() => {
   	const graph = await generateGraph(mySettings);
-//	osmData = await getOsmData(mySettings);  // Import OSM raw data
-//	console.log(Object.fromEntries(['nodes', 'ways'].map(type => [type, osmData[type].length])));
-//	const graph = generateGraphDegree2(osmData);
-//	addGeojsonFeatures('osm_sample', graph);
-  	addGeojsonFeatures('osm_sample', graph.edges.concat(graph.vertices));
+  	const features = graph.edges.concat(graph.vertices);
+  	addGeojsonFeatures('osm_sample', features);
   })();
 });
-
-
-function addGeojsonFeatures(source, features) {
-	const geojson = {"type": "FeatureCollection", "features": features};
-	map.fitBounds(turf.bbox(geojson), {padding: 20});
-
-	map.addSource(source, {
-		type: "geojson",
-		data: geojson
-	});
-
-	map.addLayer({
-		"id": `${source}_line`,
-		"source": "osm_sample",
-		"type": "line",
-		"paint": {
-		"line-color": "#a0d0d0",
-		},
-	//	"filter": ["==", "$type", "LineString"],
-		"filter":  ["!=", "yes", ["get", "oneway", ["get", "tags"]]],
-	});
-
-	map.addLayer({
-		"id": `${source}_line_oneway`,
-		"source": "osm_sample",
-		"type": "line",
-		"paint": {
-		"line-color": "#ffa0a0",
-		},
-	//"filter": ["==", "direction", 0],
-		"filter":  ["==", "yes", ["get", "oneway", ["get", "tags"]]],
-	});
-//		["==", "kojsha", ["get", "field02", ["get", "tags"]]],
-
-	map.addLayer({
-		"id": `${source}_point`,
-		"source": "osm_sample",
-		"type": "circle",
-		"paint": {
-			"circle-color": "#0000ff",
-			"circle-radius": 1.5
-		},
-		"filter": ["==", "Point", ["geometry-type"]],
-	});
-
-}
 
 
 </script>

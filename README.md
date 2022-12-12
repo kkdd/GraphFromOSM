@@ -1,5 +1,16 @@
 # Graph From OSM
 
+## Edited
+
+Here is an ES6 javascript module to construct a graph from OSM data.
+
+Set your ```KEY_MAPTILER``` in ```maplibregl.js``` to display the graph in a map.
+
+```
+// const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
+```
+
+
 ## Introduction
 
 Here is a minimalistic (npm) JavaScript module that can dynamically generate a script to perform OSM queries (to https://overpass-api.de/api/interpreter) and download data about the routing-network. Then it transforms it to a **Graph-structured** data in [geoJSON](https://en.wikipedia.org/wiki/GeoJSON) format. It is possible to **specify the geographical region** and the **type of roads** to download.

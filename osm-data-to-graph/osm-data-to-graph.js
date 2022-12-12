@@ -14,7 +14,6 @@ The main point is to separate a way object each time there is a road intersectio
 const osmDataToGraph = (osmData) => {
   // 0) Initialization ---------------------------------------------------------
   const graph = {
-//    type: 'FeatureCollection',
     metaData: {
       source: 'https://overpass-api.de/api/interpreter',
       version: osmData.version,
@@ -22,7 +21,8 @@ const osmDataToGraph = (osmData) => {
       osm3s: osmData.osm3s,
       generationgCodeAuthor: 'Matsvei Tsishyn'
     },
-//    features: []
+    vertices: [],
+    edges: []
   }
 
   // 1) Initialize some new properties and separate in nodes and ways ----------
@@ -66,10 +66,6 @@ const osmDataToGraph = (osmData) => {
   graph.vertices = nodes.filter( d => d.inGraph ).map( d => nodeToFeature(d) );
   graph.edges = links.map( d => wayToFeature(d, nodeId) );
   assignIds(graph.vertices, graph.edges);
-//  const pointFeatures = nodes.filter( d => d.inGraph ).map( d => nodeToFeature(d) );
-//  const lineStringFeatures = links.map( d => wayToFeature(d, nodeId) );
-//  assignIds(pointFeatures, lineStringFeatures);
-//  graph.features = pointFeatures.concat(lineStringFeatures);
 
   return graph;
 }
