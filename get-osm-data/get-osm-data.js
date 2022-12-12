@@ -1,6 +1,5 @@
 
 import {generateOsmScript} from './generate-osm-script.js';
-//import {axios} from 'https://unpkg.com/axios/dist/axios.min.js';
 //const axios = require('axios');
 //const { generateOsmScript } = require('./generate-osm-script.js');
 

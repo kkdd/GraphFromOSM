@@ -4,7 +4,8 @@
 
 Here is an ES6 javascript module to construct a graph from OSM data.
 
-Set your ```KEY_MAPTILER``` in ```maplibregl.js``` to display the graph in a map.
+* Load ```index.html```.
+* Set your maptiler API key in ```maplibregl.js``` to display the graph in a map in advance:
 
 ```
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
