@@ -2,11 +2,18 @@
 
 ## Forked and modified
 
-Here is an ES6 javascript module to construct a graph from OSM data.
+Here is an ES6 javascript module to construct a graph from OSM data and display it in a map.
 
 ### Usage
 
-* Load ```index.html``` to display the graph in a map.
+* Load ```index.html``` for running.
+ * Access ```http://localhost:8080/index.html``` when used in a local environment.
+ * Start a local server in advance, by executing the following in the directory, for example.
+
+```
+$ php -S 127.0.0.1:8080
+```
+
 * Set your maptiler API key in ```map.js``` in advance:
 
 ```
