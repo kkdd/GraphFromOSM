@@ -30,7 +30,7 @@ import {graphFromOsm} from './index.js';
 
 // 1) Generate a graph.
 const mySettings = {                                         // Define my settings
-  bbox: [4.372, 50.812, 4.398, 50.828],                          // Geographical rectangle
+  bbox: [4.372, 50.812, 4.398, 50.830],                          // Geographical rectangle
   highways: ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link", "residential", "unclassified", "road", "service"],     // Type of roads to consider
   timeout: 600000000, maxContentLength: 1500000000                   // OSM query parameters
 }
@@ -39,6 +39,7 @@ const generateGraph = async (settings) => {
   const osmData = await graphFromOsm.getOsmData(settings);   // Import OSM raw data
   const graph = graphFromOsm.osmDataToGraph(osmData);         // Here is your graph
   console.log(`Your graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
+  console.log(graph);
   return graph;
 }
 
@@ -46,15 +47,15 @@ const generateGraph = async (settings) => {
 
 
 // 2) Display the graph on a map.
-import {map, addGeojsonFeatures} from './maplibregl.js';
+import {map, addGeojsonFeatures} from './map.js';
 
-map.on("load", () => {
-  (async() => {
-  	const graph = await generateGraph(mySettings);
-  	const features = graph.edges.concat(graph.vertices);
-  	addGeojsonFeatures('osm_sample', features);
-  })();
-});
+const displayGraph = async (settings) => {
+  const graph = await generateGraph(mySettings);
+  const features = graph.edges.concat(graph.vertices);
+  addGeojsonFeatures('osm_sample', features);
+}
+
+map.on("load", () => displayGraph(mySettings));
 
 
 </script>

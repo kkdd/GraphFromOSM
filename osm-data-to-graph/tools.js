@@ -100,14 +100,16 @@ const assignIds = (nodes, links) => {
   const osmIdToId = new Map();              // send OSM id (that are no more uniques for links) to a new generated unique id
   // Update Nodes
   nodes.forEach( (node, i) => {
-    node.id = (i+1);
+    node.id = i;
+//    node.id = (i+1);
     osmIdToId.set(node.properties.osmId, node.id);
   })
 
   // Update links
-  const incrementForLinksIds = nodes.length + 1;
+//  const incrementForLinksIds = nodes.length + 1;
   links.forEach( (link, i) => {
-    link.id = (i+incrementForLinksIds);
+    link.id = i;
+//    link.id = (i+incrementForLinksIds);
     link.src = osmIdToId.get(link.src);
     link.tgt = osmIdToId.get(link.tgt);
   })

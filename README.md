@@ -1,14 +1,28 @@
 # Graph From OSM
 
-## Edited
+## Forked and modified
 
 Here is an ES6 javascript module to construct a graph from OSM data.
 
-* Load ```index.html```.
-* Set your maptiler API key in ```maplibregl.js``` to display the graph in a map in advance:
+### Usage
+
+* Load ```index.html``` to display the graph in a map.
+* Set your maptiler API key in ```maplibregl.js``` in advance:
 
 ```
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
+```
+
+* Watch ```console.log``` when loading. It will display the statistic of the graph:
+
+```
+Your graph contains xx vertices and yy edges.
+```
+
+* Modidify ```mySettings``` in ```index.html``` according you purpose:
+
+```
+const mySettings = {...};
 ```
 
 
