@@ -1,8 +1,5 @@
 
 import {generateOsmScript} from './generate-osm-script.js';
-//const axios = require('axios');
-//const { generateOsmScript } = require('./generate-osm-script.js');
-
 
 /*
 --------------------------------------------------------------------------------
@@ -31,4 +28,3 @@ const getOsmData = async (settings) => {
 
 
 export {getOsmData};
-//module.exports = { getOsmData };

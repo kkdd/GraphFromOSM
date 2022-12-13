@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Graph from OSM</title>
-	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-	<link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
-	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-		}
-		#map {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: 100%;
-		}
-	</style>
+  <meta charset="utf-8" />
+  <title>Graph from OSM</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+  <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
 <div id="map"></div>
 <script type="module">
-
-import {graphFromOsm} from './index.js';
-// const graphFromOsm = require('graph-from-osm');              // Import module
 
 // 1) Generate a graph.
 const mySettings = {                                         // Define my settings
@@ -35,18 +32,18 @@ const mySettings = {                                         // Define my settin
   timeout: 600000000, maxContentLength: 1500000000                   // OSM query parameters
 }
 
+import {graphFromOsm} from './index.js';
+
 const generateGraph = async (settings) => {
   const osmData = await graphFromOsm.getOsmData(settings);   // Import OSM raw data
   const graph = graphFromOsm.osmDataToGraph(osmData);         // Here is your graph
   console.log(`Your graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
-  console.log(graph);
   return graph;
 }
+//  console.log(graph);
 
-// generateGraph(mySettings);                                   // Execution
 
-
-// 2) Display the graph on a map.
+// 2) Display the graph as features on a map.
 import {map, addGeojsonFeatures} from './map.js';
 
 const displayGraph = async (settings) => {
@@ -56,7 +53,6 @@ const displayGraph = async (settings) => {
 }
 
 map.on("load", () => displayGraph(mySettings));
-
 
 </script>
 </body>

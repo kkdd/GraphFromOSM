@@ -117,4 +117,3 @@ const assignIds = (nodes, links) => {
 
 
 export {decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds};
-//module.exports = { decomposeWaysToLinks, nodeToFeature, wayToFeature, assignIds };

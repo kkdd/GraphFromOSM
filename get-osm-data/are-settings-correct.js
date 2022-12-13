@@ -94,4 +94,3 @@ const areSettingsCorrect = (settings = {}) => {
 
 
 export {areSettingsCorrect};
-//module.exports = { areSettingsCorrect };

@@ -1,6 +1,5 @@
 
 import {areSettingsCorrect} from './are-settings-correct.js';
-//const { areSettingsCorrect } = require('./are-settings-correct.js');
 
 /*
 --------------------------------------------------------------------------------
@@ -68,4 +67,3 @@ const generateOsmScript = (settings) => {
 
 
 export {generateOsmScript};
-//module.exports = { generateOsmScript };
