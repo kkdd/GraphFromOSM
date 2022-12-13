@@ -5,28 +5,24 @@
 Here is an ES6 javascript module to construct a graph from OSM data and display it in a map.
 
 ### Usage
+* Load `index.html` to run:
+    * Access `http://localhost:8080/index.html` when used in a local environment.
+    * Start a local server in advance:
+        * Execute `$ php -S 127.0.0.1:8080` in the repository's directory, for example.
 
-* Load ```index.html``` for running.
- * Access ```http://localhost:8080/index.html``` when used in a local environment.
- * Start a local server in advance, by executing the following in the directory, for example.
-
-```
-$ php -S 127.0.0.1:8080
-```
-
-* Set your maptiler API key in ```map.js``` in advance:
+* Set your maptiler API key in `map.js` in advance:
 
 ```
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 ```
 
-* Watch ```console.log``` when loading. It will display the statistic of the graph:
+* Watch `console.log` when loading. It will display the statistic of the graph:
 
 ```
 Your graph contains xx vertices and yy edges.
 ```
 
-* Modify ```mySettings``` in ```index.html``` according you purpose:
+* Modify `mySettings` in `index.html` according you purpose:
 
 ```
 const mySettings = {...};
