@@ -44,12 +44,12 @@ const generateGraph = async (settings) => {
 
 
 // 2) Display the graph as features on a map.
-import {map, addGeojsonFeatures} from './map.js';
+import {map, addFeatures} from './map.js';
 
 const displayGraph = async (settings) => {
   const graph = await generateGraph(mySettings);
   const features = graph.edges.concat(graph.vertices);
-  addGeojsonFeatures('osm_sample', features);
+  addFeatures('osm_sample', features);
 }
 
 map.on("load", () => displayGraph(mySettings));

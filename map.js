@@ -1,6 +1,5 @@
 
 import {KEY_MAPTILER} from './key/maptiler.js'
-
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 
 const map = new maplibregl.Map({
@@ -14,7 +13,7 @@ map.addControl(new maplibregl.NavigationControl());
 map.addControl(new maplibregl.ScaleControl({maxWidth: 90, unit: 'metric'}));
 
 
-function addGeojsonFeatures(source, features) {
+const addFeatures = (source, features) => {
 	const geojson = {"type": "FeatureCollection", "features": features};
 	map.fitBounds(turf.bbox(geojson), {padding: 20});
 
@@ -53,7 +52,7 @@ function addGeojsonFeatures(source, features) {
 		},
 		"filter": ["==", "Point", ["geometry-type"]],
 	});
-}
+};
 
 
-export {map, addGeojsonFeatures};
+export {map, addFeatures};
