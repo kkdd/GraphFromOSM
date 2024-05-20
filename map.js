@@ -1,10 +1,12 @@
 
 //import {KEY_MAPTILER} from './key/maptiler.js'
 import {KEY_MAPTILER} from './key.js';
+//import keyJson from "./key.json";
 //const KEY_MAPTILER = keyJson["maptilerKey"];
+
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 //console.log(key, key.KEY_MAPTILER);
-console.log(KEY_MAPTILER);
+//console.log(KEY_MAPTILER);
 
 const map = new maplibregl.Map({
 	container: 'map',
