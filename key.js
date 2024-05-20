@@ -1,3 +1,3 @@
 {
-    "maptilerKey": "gRH9lMBOcae1wkylfAhY"
+    "maptilerKey": 'gRH9lMBOcae1wkylfAhY'
 }
