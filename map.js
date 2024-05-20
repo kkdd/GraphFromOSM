@@ -1,7 +1,8 @@
 
 //import {KEY_MAPTILER} from './key/maptiler.js'
 import {KEY_MAPTILER} from './key.js';
-//import keyJson from "./key.json";
+import keyJson from "./key.json";
+console.log(keyJson);
 //const KEY_MAPTILER = keyJson["maptilerKey"];
 
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
