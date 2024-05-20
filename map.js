@@ -1,7 +1,7 @@
 
 //import {KEY_MAPTILER} from './key/maptiler.js'
 import {KEY_MAPTILER} from './key.js';
-import keyJson from "./key.json"; assert { type: "json" };
+import keyJson from "./key.json" assert { type: "json" };
 console.log(keyJson);
 //const KEY_MAPTILER = keyJson["maptilerKey"];
 
