@@ -22,7 +22,7 @@ Here is an ES6 javascript module to construct a graph from OSM data and display 
 Your graph contains xx vertices and yy edges.
 ```
 
-* Modify `mySettings` in `index.html` according you purpose:
+* Modify `mySettings` in `index.html` according to you purpose:
 
 ```
 const mySettings = {...};
