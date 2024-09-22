@@ -1,33 +1,48 @@
-# Graph From OSM
+# Graph From OSM (Forked and Extended)
 
-## Forked and modified
-
-Here is an ES6 javascript module to construct a graph from OSM data and display it in a map.
+Here is an ES6 javascript module to construct a graph from OSM data and display it on a map.
 
 ### Usage
-* Load `index.html` to run:
-    * Access `http://localhost:8080/index.html` when used in a local environment.
-    * Start a local server in advance:
-        * Execute `$ php -S 127.0.0.1:8080` in the repository's directory, for example.
-
-* Set your maptiler API key in `map.js` in advance:
+* Set your Maptiler API key in `key.json` in advance.
+* Load `index.html` with a web browser to run.
+* Modify `settings.json` according to you purpose.
+* Watch `console.log` when loading. It will display the statistic of the graph as below:
 
 ```
-// const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
+The imported OSM data contains 869 nodes and 165 ways.
+The converted graph contains 220 vertices and 186 edges.
+The processed graph contains 38 vertices and 43 edges.
 ```
 
-* Watch `console.log` when loading. It will display the statistic of the graph:
+### Functions added in this fork
+
+* `simplifyGraph(graph)`: reconstruct the graph by removing degree-2 vertices
+* `extractConnectedWith(graph, highway)`: extract the subgraph connected with a specified highway type.
+* `displayGraph(graph)`: display the graph on a map
+
+
+### Definition of a graph variable in this fork
 
 ```
-Your graph contains xx vertices and yy edges.
+graph = {
+  vertices: a GeoJSON features array of Points,
+  edges: a GeoJSON features array of LineStrings
+}
 ```
 
-* Modify `mySettings` in `index.html` according to you purpose:
+The GeoJSON features are extended to have some values:
 
-```
-const mySettings = {...};
-```
+* The Point feature has ```{id: vertexID, edges: edgeIDs, inGraph: boolean}```.
+* The Linestring feature has ```{id: edgeID, vertices: vertexIDs, directed: boolean, inGraph: boolean}```.
 
+    
+    
+### Example of visualization
+
+![displayGraph](https://github.com/user-attachments/assets/0ffea837-7b6a-45f6-bfc7-dc555555fb9d)
+
+
+# Graph From OSM (original)
 
 ## Introduction
 
