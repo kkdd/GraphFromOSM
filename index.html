@@ -19,41 +19,29 @@
       bottom: 0;
       width: 100%;
     }
+    #select {position: absolute; top: 10px; left:10px; background: #fff; opacity: 0.7;}
   </style>
 </head>
 <body>
 <div id="map"></div>
+<select id='select'></select>
 <script type="module">
+"use strict";
+import {generateGraph} from './js/generate-graph.js';
+import {onLoad, displayGraph} from './js/display-on-map.js';
+import {simplifyGraph, extractConnectedWith} from './js/simplify-graph.js';
+import mySettings from "./settings.json" with { type: "json" };
 
-// 1) Generate a graph.
-const mySettings = {                                         // Define my settings
-  bbox: [4.372, 50.812, 4.400, 50.830],                          // Geographical rectangle
-  highways: ["motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", "secondary_link", "tertiary", "tertiary_link", "residential", "unclassified", "road", "service"],     // Type of roads to consider
-  timeout: 600000000, maxContentLength: 1500000000                   // OSM query parameters
+const generateAndDisplayGraph = async (settings) => {
+  const graph = await generateGraph(settings);
+  console.log(`The converted graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
+	simplifyGraph(graph);
+	extractConnectedWith(graph, "motorway");
+  displayGraph(graph);
+	console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
 }
 
-import {graphFromOsm} from './index.js';
-
-const generateGraph = async (settings) => {
-  const osmData = await graphFromOsm.getOsmData(settings);   // Import OSM raw data
-  const graph = graphFromOsm.osmDataToGraph(osmData);         // Here is your graph
-  console.log(`Your graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
-  return graph;
-}
-//  console.log(graph);
-
-
-// 2) Display the graph as features on a map.
-import {map, addFeatures} from './map.js';
-
-const displayGraph = async (settings) => {
-  const graph = await generateGraph(mySettings);
-  const features = graph.edges.concat(graph.vertices);
-  addFeatures('osm_sample', features);
-}
-
-map.on("load", () => displayGraph(mySettings));
-
+onLoad(() => generateAndDisplayGraph(mySettings));
 </script>
 </body>
 </html>
