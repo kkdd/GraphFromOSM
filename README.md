@@ -3,7 +3,7 @@
 Here is an ES6 javascript module to construct a graph from OSM data and display it on a map.
 
 ### Usage
-* Set your Maptiler API key in `key.json` in advance.
+* Set your Maptiler API key in `key.json`.
 * Load `index.html` with a web browser to run.
 * Modify `settings.json` according to you purpose.
 * Watch `console.log` when loading. It will display the statistic of the graph as below:
@@ -30,10 +30,10 @@ graph = {
 }
 ```
 
-The GeoJSON features are extended to have some values:
+The both types of feature objects are extended to have some additional values:
 
-* The Point feature has ```{id: vertexID, edges: edgeIDs, inGraph: boolean}```.
-* The Linestring feature has ```{id: edgeID, vertices: vertexIDs, directed: boolean, inGraph: boolean}```.
+* The vertices objects have ```{id: vertexID, edges: edgeIDs, inGraph: boolean}```.
+* The edges objects have ```{id: edgeID, vertices: vertexIDs, directed: boolean, inGraph: boolean}```.
 
     
     
