@@ -35,10 +35,10 @@ import mySettings from "./settings.json" with { type: "json" };
 const generateAndDisplayGraph = async (settings) => {
   const graph = await generateGraph(settings);
   console.log(`The converted graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
-	simplifyGraph(graph);
-	extractConnectedWith(graph, "motorway");
+  simplifyGraph(graph);
+  extractConnectedWith(graph, "motorway");
   displayGraph(graph);
-	console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
+  console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
 }
 
 onLoad(() => generateAndDisplayGraph(mySettings));
