@@ -30,12 +30,11 @@ graph = {
 }
 ```
 
-The both types of feature objects are extended to have some additional values:
+The both types of feature object are extended to have some additional values:
 
-* The vertices objects have ```{id: vertexID, edges: edgeIDs, inGraph: boolean}```.
-* The edges objects have ```{id: edgeID, vertices: vertexIDs, directed: boolean, inGraph: boolean}```.
+* The vertex object has ```id: vertexID```, ```edges: edgeIDs```, and ```inGraph: boolean```.
+* The edge object has ```id: edgeID```, ```vertices: vertexIDs```, ```directed: boolean```, and ```inGraph: boolean```.
 
-    
     
 ### Example of visualization
 
