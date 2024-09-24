@@ -9,9 +9,9 @@ Here is an ES6 javascript module to construct a graph from OSM data and display 
 * Watch `console.log` when loading. It will display the statistic of the graph as below:
 
 ```
-The imported OSM data contains 869 nodes and 165 ways.
-The converted graph contains 220 vertices and 186 edges.
-The processed graph contains 38 vertices and 43 edges.
+The imported OSM data contains 3179 nodes and 667 ways.
+The converted graph contains 669 vertices and 895 edges.
+The processed graph contains 491 vertices and 720 edges.
 ```
 
 ### Functions added in this fork
@@ -37,8 +37,7 @@ The both types of feature object are extended to have some additional values:
 
     
 ### Example of visualization
-
-![displayGraph](https://github.com/user-attachments/assets/0ffea837-7b6a-45f6-bfc7-dc555555fb9d)
+![brussel](https://github.com/user-attachments/assets/808d8f73-ce98-4b95-8252-46364882c424)
 
 
 # Graph From OSM (original)
