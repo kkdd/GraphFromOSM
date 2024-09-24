@@ -25,8 +25,8 @@ The processed graph contains 491 vertices and 720 edges.
 
 ```
 graph = {
-  vertices: a GeoJSON features array of Points,
-  edges: a GeoJSON features array of LineStrings
+  vertices: an array of GeoJSON Point features
+  edges: an array of GeoJSON LineString features
 }
 ```
 
