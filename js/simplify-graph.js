@@ -18,10 +18,10 @@ function simplifyGraph(graph) {
     if (edgeIDs.bothAreEqual()) continue;  // It's an isolated loop.
     const edges = edgeIDs.map(id => graph.edges[id]);  // depicted as [ --- * --- ]
     const directed = edges.map(e => e.directed);
-    if (!directed.bothAreEqual()) continue;  // A mixture of directed and undirected.
+    if (!directed.bothAreEqual()) continue;  // A mixture of directed and undirected.
     if (directed[0]) {  // directed
       const dirsOut = edges.map(d => d.vertices[0] == vertex.id);  // outward directions
-      if (dirsOut.bothAreEqual()) continue;  // not concatenated; depicted as [ <-- * --> ] or [ --> * <-- ].
+      if (dirsOut.bothAreEqual()) continue;  // will not concatenated; depicted as [ <-- * --> ] or [ --> * <-- ].
       if (dirsOut[0]) edgeIDs.reverse();  // make it in the processing order depicted as [ --> * --> ]
     }
     const adjacents = edgeIDs.map(edgeID => graph.edges[edgeID].vertices.find(v => v != vertex.id));  // = [predecessor, successor] for directed
