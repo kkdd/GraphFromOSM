@@ -36,7 +36,7 @@ const generateAndDisplayGraph = async (settings) => {
   const graph = await generateGraph(settings);
   console.log(`The converted graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
   simplifyGraph(graph);
-  extractConnectedWith(graph, "motorway");
+  extractConnectedWith(graph, "trunk");
   displayGraph(graph);
   console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
 }
