@@ -19,7 +19,7 @@ function simplifyGraph(graph) {
     const edges = edgeIDs.map(id => graph.edges[id]);  // depicted as [ --- * --- ]
     const directed = edges.map(e => e.directed);
     if (!directed.bothAreEqual()) continue;  // A mixture of directed and undirected.
-    if (directed[0]) {  // directed
+    if (directed[0]) {  // for a directed edge
       const dirsOut = edges.map(d => d.vertices[0] == vertex.id);  // outward directions
       if (dirsOut.bothAreEqual()) continue;  // will not concatenated; depicted as [ <-- * --> ] or [ --> * <-- ].
       if (dirsOut[0]) edgeIDs.reverse();  // make it in the processing order depicted as [ --> * --> ]
