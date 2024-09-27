@@ -37,6 +37,7 @@ The both types of feature object are extended to have some additional values:
 
     
 ### Example of visualization
+In this example, directed edges are depicted by blue and undirected ones are by green.
 ![brussel](https://github.com/user-attachments/assets/808d8f73-ce98-4b95-8252-46364882c424)
 
 
