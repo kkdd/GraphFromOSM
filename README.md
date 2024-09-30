@@ -26,7 +26,7 @@ The graph is defined as a [mixed](https://en.wikipedia.org/wiki/Mixed_graph) [mu
 
 ```
 graph = {
-  vertices: an array of GeoJSON Point features
+  vertices: an array of GeoJSON Point features,
   edges: an array of GeoJSON LineString features
 }
 ```
