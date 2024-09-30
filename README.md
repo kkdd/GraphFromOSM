@@ -20,8 +20,9 @@ The processed graph contains 491 vertices and 720 edges.
 * `extractConnectedWith(graph, highway)`: extract the subgraph connected with a specified highway type.
 * `displayGraph(graph)`: display the graph on a map
 
-
 ### Definition of a graph variable in this fork
+
+The graph is defined as a [mixed](https://en.wikipedia.org/wiki/Mixed_graph) [multigraph](https://en.wikipedia.org/wiki/Multigraph) and
 
 ```
 graph = {
@@ -33,7 +34,7 @@ graph = {
 The both types of feature object are extended to have some additional values:
 
 * The vertex object has ```id: vertexID```, ```edges: edgeIDs```, and ```inGraph: boolean```.
-* The edge object has ```id: edgeID```, ```vertices: vertexIDs```, ```directed: boolean```, and ```inGraph: boolean```.
+* The edge object has ```id: edgeID```, ```vertices: vertexIDs```, ```directed: boolean```, and ```inGraph: boolean```, where ```vertexIDs``` are ordered if the edge is directed.
 
     
 ### Example of visualization
