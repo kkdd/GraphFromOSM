@@ -1,5 +1,6 @@
 "use strict";
 import {generateOsmScript} from './generate-osm-script.js';
+import axios from 'https://unpkg.com/axios/dist/esm/axios.min.js';
 
 /*
 --------------------------------------------------------------------------------
