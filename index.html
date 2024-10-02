@@ -4,10 +4,6 @@
   <meta charset="utf-8" />
   <title>Graph from OSM</title>
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-  <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet' />
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -32,11 +28,13 @@ import {onLoad, displayGraph} from './js/display-on-map.js';
 import {simplifyGraph, extractConnectedWith} from './js/simplify-graph.js';
 import mySettings from "./settings.json" with { type: "json" };
 
+const highway = "motorway";
+
 const generateAndDisplayGraph = async (settings) => {
   const graph = await generateGraph(settings);
   console.log(`The converted graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
   simplifyGraph(graph);
-  extractConnectedWith(graph, "trunk");
+  extractConnectedWith(graph, highway);
   displayGraph(graph);
   console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
 }
