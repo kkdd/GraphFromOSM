@@ -1,9 +1,14 @@
 "use strict";
+
+import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.js';
+import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' with { type: 'css' };  // Chrome 123
+import * as turf from 'https://cdn.jsdelivr.net/npm/@turf/turf@7/+esm';
 import key from "../key.json" with {type: "json"};
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 
 const source_name = "graph";
-const styles = ["positron", "darkmatter", "basic", "bright", "openstreetmap"];
+const styles = ["darkmatter", "positron", "basic", "bright", "openstreetmap", "satellite"];
+const colors = {"point": "#e040e0", "oneway": "#90c0f0", "undirected": "#80d070"};
 
 const map = new maplibregl.Map({
   container: 'map',
@@ -23,10 +28,10 @@ const onLoad = execution => {
 const selectStyle = document.getElementById("select"); 
 selectStyle.addEventListener('change', swapStyle, false);
 for (const style of styles) {
-    const el = document.createElement("option");
-    el.textContent = style;
-    el.value = getStyle(style);
-    selectStyle.appendChild(el);
+  const el = document.createElement("option");
+  el.textContent = style;
+  el.value = getStyle(style);
+  selectStyle.appendChild(el);
 };
 
 function getStyle(style) {
@@ -56,7 +61,6 @@ Array.prototype.extract = function(key) {return this.filter(w => w[key] == true)
 
 
 const displayGraph = graph => {
-  const colors = {"point": "#e040e0", "oneway": "#90c0f0", "undirected": "#80d070"};
   const source = {"points": `${source_name}_points`, "lines": `${source_name}_lines`};
   const data = {
     "points": {"type": "FeatureCollection", "features": graph.vertices.extract("inGraph")},
