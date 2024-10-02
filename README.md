@@ -3,7 +3,7 @@
 Here is an ES6 javascript module to construct a graph from OSM data and display it on a map.
 
 ### Usage
-* Set your Maptiler API key in `key.json`.
+* Set your [Maptiler API key](https://docs.maptiler.com/cloud/api/authentication-key/) in `key.json`.
 * Load `index.html` with a web browser to run.
 * Modify `settings.json` according to you purpose.
 * Watch `console.log` when loading. It will display the statistic of the graph as below:
