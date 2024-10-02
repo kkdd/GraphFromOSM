@@ -26,20 +26,20 @@
 import {generateGraph} from './js/generate-graph.js';
 import {onLoad, displayGraph} from './js/display-on-map.js';
 import {simplifyGraph, extractConnectedWith} from './js/simplify-graph.js';
-import mySettings from "./settings.json" with { type: "json" };
-
-const highway = "motorway";
+import settings from "./settings.json" with { type: "json" };
 
 const generateAndDisplayGraph = async (settings) => {
+	const highway = settings.extractHighway;
   const graph = await generateGraph(settings);
-  console.log(`The converted graph contains ${graph.vertices.length} vertices and ${graph.edges.length} edges.`);
+  console.log(`The converted graph contains ${len("vertices")} vertices and ${len("edges")} edges.`);
   simplifyGraph(graph);
-  extractConnectedWith(graph, highway);
+	if (highway) extractConnectedWith(graph, highway);
   displayGraph(graph);
-  console.log(`The processed graph contains ${graph.vertices.extract("inGraph").length} vertices and ${graph.edges.extract("inGraph").length} edges.`);
+  console.log(`The processed graph contains ${len("vertices")} vertices and ${len("edges")} edges.`);
+  function len(type) {return graph[type].extract("inGraph").length};
 }
 
-onLoad(() => generateAndDisplayGraph(mySettings));
+onLoad(() => generateAndDisplayGraph(settings));
 </script>
 </body>
 </html>
