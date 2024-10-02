@@ -1,7 +1,7 @@
 "use strict";
 
 import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.js';
-import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' with { type: 'css' };  // Chrome 123
+import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' with { type: 'css' };  // Chrome 123 or later
 import * as turf from 'https://cdn.jsdelivr.net/npm/@turf/turf@7/+esm';
 import key from "../key.json" with {type: "json"};
 // const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
@@ -20,9 +20,7 @@ const map = new maplibregl.Map({
 map.addControl(new maplibregl.NavigationControl());
 map.addControl(new maplibregl.ScaleControl({maxWidth: 90, unit: 'metric'}));
 
-const onLoad = execution => {
-  map.on("load", execution);
-}
+const onLoad = execution => map.on("load", execution);
 
 // styles of map
 const selectStyle = document.getElementById("select"); 
@@ -57,7 +55,7 @@ function swapStyle() {
 
 
 // methods -----------------------------
-Array.prototype.extract = function(key) {return this.filter(w => w[key] == true)};
+Array.prototype.extract = function(key) {return this.filter(w => w[key] != false)};
 
 
 const displayGraph = graph => {
