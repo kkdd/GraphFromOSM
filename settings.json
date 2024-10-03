@@ -19,7 +19,7 @@
     "residential",
     "living_street"
   ],
-  "extractHighway": "motorway",
+  "extractHighway": "trunk",
   "timeout": 10000,
   "maxContentLength": 10737418
 }
