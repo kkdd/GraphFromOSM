@@ -29,11 +29,11 @@ import {simplifyGraph, extractConnectedWith} from './js/simplify-graph.js';
 import settings from "./settings.json" with { type: "json" };
 
 const generateAndDisplayGraph = async (settings) => {
-	const highway = settings.extractHighway;
+  const highway = settings.extractHighway;
   const graph = await generateGraph(settings);
   console.log(`The converted graph contains ${len("vertices")} vertices and ${len("edges")} edges.`);
   simplifyGraph(graph);
-	if (highway) extractConnectedWith(graph, highway);
+  if (highway) extractConnectedWith(graph, highway);
   displayGraph(graph);
   console.log(`The processed graph contains ${len("vertices")} vertices and ${len("edges")} edges.`);
   function len(type) {return graph[type].extract("inGraph").length};
