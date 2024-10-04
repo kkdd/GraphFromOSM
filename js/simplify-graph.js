@@ -7,86 +7,105 @@ Map.prototype.getArray = function(key) {
   return this.get(key);
 };
 
-
-function simplifyGraph(graph) {
-  // 1) Choose normal degree-2 vertices in the graph
-  const vertices_degree_2 = new Map();  // store degree-2 vertices
+// graph simplification by deleteing degree-2 vertices
+function simplifyGraph(graph) {  // graph will be overwritten
+  // 1) Choose and store normal degree-2 vertices in the graph
+  const vertices_degree_2 = new Map();  // initialization
   for (const vertex of graph.vertices) {
-    if (!vertex.inGraph) continue;
-    const edgeIDs = vertex.edges.filter(id => graph.edges[id].inGraph);
-    if (edgeIDs.length != 2) continue;  // It isn't a degree-2 vertex.
-    if (edgeIDs.bothAreEqual()) continue;  // It's an isolated loop.
-    const edges = edgeIDs.map(id => graph.edges[id]);  // depicted as [ --- * --- ]
-    const directed = edges.map(e => e.directed);
-    if (!directed.bothAreEqual()) continue;  // A mixture of directed and undirected.
-    if (directed[0]) {  // for a directed edge
-      const dirsOut = edges.map(d => d.vertices[0] == vertex.id);  // outward directions
-      if (dirsOut.bothAreEqual()) continue;  // will not concatenated; depicted as [ <-- * --> ] or [ --> * <-- ].
-      if (dirsOut[0]) edgeIDs.reverse();  // make it in the processing order depicted as [ --> * --> ]
-    }
-    const adjacents = edgeIDs.map(edgeID => graph.edges[edgeID].vertices.find(v => v != vertex.id));  // = [predecessor, successor] for directed
+    if (!shouldBeConcatenated(vertex)) continue;
+    const edgeIDs = vertex.edges;  // edge ids for the first and second ones
+    const edges = edgeIDs.map(id => graph.edges[id]);
+    const directed = edges[0].directed;  // == edges[1].directed
+    const adjacents = edges.map(e => e.vertices.find(id => id != vertex.id));  // depicted as [ * --- v --- * ] where v denotes the vertex and *'s the adjacents.
     vertices_degree_2.set(vertex.id, {
       visited: false,
-      directed: directed[0],
+      directed: directed,
       edgeIDs: edgeIDs,
       adjacents: adjacents
     });
   }
 
-  // 2) Make concatenated edges by propagating on degree-2 vertices and introduce them into the graph. We however leave isolated cycle graphs untouched.
-  const [PREDECESSOR, SUCCESSOR] = [0, 1];  // adjacents = [predecessor, successor]
+  // 2) Make concatenated edges by propagating at degree-2 vertices and introduce them into the graph. We however leave isolated cycle graphs untouched.
   for (let id of vertices_degree_2.keys()) {
-    if (visited(id)) continue;
-    let [predecessor, successor] = getAdjacents(id);
-    if (vertices_degree_2.has(predecessor)) continue;  // Ascertain whether it is the first vertex for processing
-    const edgeIDs = [getEdge(id, PREDECESSOR)];
+    let successor = getSuccessor(id);
+    if (!successor) continue;  // The vertex should not be used as a beginning.
+    const edgeIDs = [getEdgeAhead(id)];  // initialization
     while (true) {
-      edgeIDs.push(getEdge(id, SUCCESSOR));
+      edgeIDs.push(getEdgeBehind(id));
       if (!vertices_degree_2.has(successor)) break;
-      [predecessor, id] = [id, successor];
-      const adjacents = vertices_degree_2.get(id).adjacents;
-      if (adjacents[0] == predecessor)
-        successor = adjacents[1];
-      else {  // reverse to make it in the processing order
-        successor = adjacents[0];
-        vertices_degree_2.get(id).edgeIDs.reverse();
-      }
+      [id, successor] = moveAStepForward(id, successor);  // update to propagate
     }
     introduceEdgeConcatenated(edgeIDs);  // Append a new edge into the graph.
   }
 
-  // 3) Reasign adjacency data.
-  const verticesToEdges = setVerticesToEdges(graph);
+  // 3) Reassign adjacency data.
+  const verticesToEdges = getReassignmentVerticesToEdges(graph);
   graph.vertices.forEach(vertex => {
-    if (!vertex.inGraph) return;  // continue
-    vertex.edges = verticesToEdges.get(vertex.id);  // reasign
+    if (vertex.inGraph) {vertex.edges = verticesToEdges.get(vertex.id);}  // reassign
   });
 
 
   // functions -----------------------------
+  function shouldBeConcatenated(vertex) {
+    if (!vertex.inGraph) return false;
+    const edgeIDs = vertex.edges.filter(id => graph.edges[id].inGraph);
+    if (edgeIDs.length != 2) return false;  // It isn't a degree-2 vertex.
+    if (edgeIDs.bothAreEqual()) return false;  // It's an isolated loop as the first and second edges are identical.
+    const edges = edgeIDs.map(id => graph.edges[id]);  // depicted as [ --- v --- ]
+    const directed = edges.map(e => e.directed);
+    if (!directed.bothAreEqual()) return false;  // A mixture of directed and undirected.
+    if (directed[0]) {  // for a directed edge
+      const dirsOut = edges.map(e => e.vertices[0] == vertex.id);  // outward directions
+      if (dirsOut.bothAreEqual()) return false;  // will not concatenated; depicted as [ <-- v --> ] or [ --> v <-- ].
+      if (edges[0].vertices[0] == vertex.id) vertex.edges.reverse(); // make them in the processing order depicted as [ p --> v --> s ] where p and s denote the predecessor and successor.
+    }
+    return true;
+  }
+
   function visited(vertexID) {
     return vertices_degree_2.get(vertexID).visited;
   }
 
-  function getAdjacents(vertexID) {
-    const v = vertices_degree_2.get(vertexID);
-    if (!v.directed && vertices_degree_2.has(v.adjacents[0]) && !vertices_degree_2.has(v.adjacents[1])) {  // undirected
-      v.edgeIDs.reverse();
-      v.adjacents.reverse();
-    }
-    return v.adjacents;
+  function getSuccessor(vertexID) {
+    if (visited(vertexID)) {return undefined};
+    const vertex = vertices_degree_2.get(vertexID);
+    let [predecessor, successor] = vertex.adjacents;
+    if (!vertex.directed && vertices_degree_2.has(predecessor) && !vertices_degree_2.has(successor)) {  // undirected
+      vertex.edgeIDs.reverse();
+      vertex.adjacents.reverse();
+      successor = predecessor;
+    } else if (vertices_degree_2.has(predecessor)) {successor = undefined;}  // Ascertain whether the vertex should be used as a beginning.
+    return successor;
   }
 
-  function getEdge(vertexID, index) {  //  index = PREDECESSOR or SUCCESSOR
+  function moveAStepForward(id, successor) {  // update [id, successor] to move a step forward to propagate
+    const predecessor = id;
+    id = successor;
+    const vertex = vertices_degree_2.get(id);
+    const adjacents = vertex.adjacents;  // = [predecessor, successor] if in its standard order
+    if (adjacents[0] == predecessor)
+      successor = adjacents[1];
+    else {  // reverse to make it in the processing order
+      successor = adjacents[0];
+      vertex.edgeIDs.reverse();
+    }
+    return [id, successor];
+  }
+
+  function getEdgeAhead(vertexID) {return getEdge(vertexID, 0);}
+  function getEdgeBehind(vertexID) {
+    vertices_degree_2.get(vertexID).visited = true;
+    graph.vertices[vertexID].inGraph = false;  // eliminate degree-2 vertices no longer in use in the graph
+    return getEdge(vertexID, 1);
+  }
+  function getEdge(vertexID, index) {  // index = 0 (ahead) or 1 (behind)
     const vertex = vertices_degree_2.get(vertexID);
     const edgeID = vertex.edgeIDs[index];
     const edge = graph.edges[edgeID];
-    if (edge.vertices[0] != (index==PREDECESSOR?vertex.adjacents[0]:vertexID)) {
+    if (edge.vertices[index ^ 1] != vertexID) {  // The edge is in reverse order in the graph.
       edge.vertices.reverse();
       edge.geometry.coordinates.reverse();
     }
-    vertices_degree_2.get(vertexID).visited = true;
-    graph.vertices[vertexID].inGraph = false;  // eliminate degree-2 vertices no longer in use in the graph
     return edgeID;
   }
 
@@ -108,8 +127,8 @@ function simplifyGraph(graph) {
     edges.forEach(e => e.inGraph = false);  // eliminate edges no longer in use in the graph
   }
 
-  function setVerticesToEdges(graph) {
-    const verticesToEdges = new Map();
+  function getReassignmentVerticesToEdges(graph) {
+    const verticesToEdges = new Map();  // initialization
     graph.edges.forEach(edge => {
       if (!edge.inGraph) return;  // continue
       edge.vertices.forEach(v => verticesToEdges.getArray(v).push(edge.id))
@@ -119,7 +138,7 @@ function simplifyGraph(graph) {
 }
 
 // Obtain connected componnents in graph
-function extractConnectedWith(graph, highway) {
+function extractConnectedWith(graph, highway) {  // graph will be overwritten
   const edgesVisited = new Set();  // store edgeID's during traverse
   const extractHighway = edge => edge.inGraph && edge.properties.tags.highway == highway;
   graph.edges.filter(extractHighway).forEach(traverse);  // traverse
@@ -145,7 +164,7 @@ function extractConnectedWith(graph, highway) {
   }
 
   function edgesConnected(edge) {
-    const edgeIDs = new Set();
+    const edgeIDs = new Set();  // initialization
     edge.vertices.forEach(v => {
       graph.vertices[v].edges.forEach(e => edgeIDs.add(e));
     })
