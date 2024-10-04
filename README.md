@@ -16,7 +16,7 @@ The processed graph contains 491 vertices and 720 edges.
 
 ### Functions added in this fork
 
-* `simplifyGraph(graph)`: reconstruct the graph by removing degree-2 vertices
+* `simplifyGraph(graph)`: reconstruct the graph by removing interstitial degree-2 vertices
 * `extractConnectedWith(graph, highway)`: extract the subgraph connected with a specified highway type.
 * `displayGraph(graph)`: display the graph on a map
 
