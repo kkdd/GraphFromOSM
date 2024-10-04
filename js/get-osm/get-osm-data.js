@@ -12,7 +12,6 @@ Output: OSM data
 --------------------------------------------------------------------------------
 */
 
-
 const getOsmData = async (settings) => {
   const osmScript = generateOsmScript(settings);
   const response = await axios.request({
@@ -26,6 +25,5 @@ const getOsmData = async (settings) => {
   response.data.generatingScript = osmScript;
   return response.data;
 }
-
 
 export {getOsmData};
