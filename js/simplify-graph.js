@@ -13,10 +13,10 @@ function simplifyGraph(graph) {  // graph will be overwritten
   const vertices_degree_2 = new Map();  // initialization
   for (const vertex of graph.vertices) {
     if (!shallBeConcatenated(vertex)) continue;
-    const edgeIDs = vertex.edges;  // edge ids for the first and second ones
+    const edgeIDs = vertex.edges;  // the ids of two edges
     const edges = edgeIDs.map(id => graph.edges[id]);
+    const adjacents = getAdjacents(vertex, edges);
     const directed = edges[0].directed;  // == edges[1].directed
-    const adjacents = edges.map(e => e.vertices.find(id => id != vertex.id));
     vertices_degree_2.set(vertex.id, {
       visited: false,
       directed: directed,
@@ -29,13 +29,13 @@ function simplifyGraph(graph) {  // graph will be overwritten
   for (let id of vertices_degree_2.keys()) {
     let successor = getSuccessor(id);
     if (!successor) continue;  // The vertex can't be used as a beginning.
-    const edgeIDs = [getEdgeAhead(id)];  // beginning
+    const edgeIDs = [getEdgeAheadOf(id)];  // begining
     while (true) {
-      edgeIDs.push(getEdgeBehind(id));
+      edgeIDs.push(getEdgeBehindOf(id));
       if (!vertices_degree_2.has(successor)) break;
       [id, successor] = moveAStepForward(id, successor);  // update to propagate
     }
-    introduceEdgeConcatenated(edgeIDs);  // Append a new edge into the graph.
+    concatenate(edgeIDs);  // Concatenate the edges and introduce the newly-created edge to the graph.
   }
 
   // 3) Reassign adjacency data.
@@ -55,15 +55,15 @@ function simplifyGraph(graph) {  // graph will be overwritten
     const directed = edges.map(e => e.directed);
     if (!directed.bothAreEqual()) return false;  // A mixture of directed and undirected.
     if (directed[0]) {  // for a directed edge
-      const dirsOutward = edges.map(e => e.vertices[0] == vertex.id);  // wheather each edge is outward
+      const dirsOutward = edges.map(e => e.vertices[0] == vertex.id);  // represents wheather each edge is outward
       if (dirsOutward.bothAreEqual()) return false;  // can't be concatenated, as depicted as [ <-- v --> ] or [ --> v <-- ].
       if (dirsOutward[0]) vertex.edges.reverse(); // make them in the processing order depicted as [ p --> v --> s ] where p and s denote the predecessor and successor.
     }
     return true;
   }
 
-  function visited(vertexID) {
-    return vertices_degree_2.get(vertexID).visited;
+  function getAdjacents(vertex, edges) {
+    return edges.map(e => e.vertices.find(id => id != vertex.id));
   }
 
   function getSuccessor(vertexID) {
@@ -92,8 +92,8 @@ function simplifyGraph(graph) {  // graph will be overwritten
     return [id, successor];
   }
 
-  function getEdgeAhead(vertexID) {return getEdge(vertexID, 0);}
-  function getEdgeBehind(vertexID) {
+  function getEdgeAheadOf(vertexID) {return getEdge(vertexID, 0);}
+  function getEdgeBehindOf(vertexID) {
     vertices_degree_2.get(vertexID).visited = true;
     graph.vertices[vertexID].inGraph = false;  // eliminate degree-2 vertices no longer in use in the graph
     return getEdge(vertexID, 1);
@@ -116,7 +116,7 @@ function simplifyGraph(graph) {  // graph will be overwritten
     return coords;
   }
 
-  function introduceEdgeConcatenated(edgeIDs) {
+  function concatenate(edgeIDs) {  // Concatenate the edges and introduce the newly-created edge to the graph.
     const edges = edgeIDs.map(id => graph.edges[id]);
     const edgeConcatenated = {...edges[0]};  // new edge
     edgeConcatenated.id = graph.edges.length;  // sequential ID
@@ -134,6 +134,10 @@ function simplifyGraph(graph) {  // graph will be overwritten
       e.vertices.forEach(v => verticesToEdges.getArray(v).push(e.id))
     });
     return verticesToEdges;
+  }
+
+  function visited(vertexID) {
+    return vertices_degree_2.get(vertexID).visited;
   }
 }
 
