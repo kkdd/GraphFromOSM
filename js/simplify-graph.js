@@ -39,7 +39,7 @@ function simplifyGraph(graph) {  // graph will be overwritten
   }
 
   // 3) Reassign adjacency data.
-  const verticesToEdges = getAssignmentVerticesToEdges(graph);
+  const verticesToEdges = getAssignmentForVerticesToEdges(graph);
   graph.vertices.forEach(vertex => {
     if (vertex.inGraph) {vertex.edges = verticesToEdges.get(vertex.id);}  // reassign
   });
@@ -127,7 +127,7 @@ function simplifyGraph(graph) {  // graph will be overwritten
     edges.forEach(e => e.inGraph = false);  // eliminate edges no longer in use in the graph
   }
 
-  function getAssignmentVerticesToEdges(graph) {
+  function getAssignmentForVerticesToEdges(graph) {
     const verticesToEdges = new Map();  // initialization
     graph.edges.forEach(e => {
       if (!e.inGraph) return;  // continue
