@@ -1,10 +1,8 @@
 "use strict";
 
 import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.js';
-import 'https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' with { type: 'css' };  // Chrome 123 or later
 import * as turf from 'https://cdn.jsdelivr.net/npm/@turf/turf@7/+esm';
 import key from "../key.json" with {type: "json"};
-// const KEY_MAPTILER = 'YOUR_MAPTILER_API_KEY_HERE';
 
 const source_name = "graph";
 const styles = ["darkmatter", "positron", "basic", "bright", "openstreetmap", "satellite"];
@@ -65,7 +63,7 @@ const displayGraph = graph => {
     "lines": {"type": "FeatureCollection", "features": graph.edges.extract("inGraph")},
   };
 
-  map.fitBounds(turf.bbox(data.lines), {padding: 30});
+  if(data.lines.features.length) map.fitBounds(turf.bbox(data.lines), {padding: 30});
 
   // sources
   map.addSource(source.points, {
