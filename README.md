@@ -1,6 +1,6 @@
 # Graph From OSM (Forked and Extended)
 
-Here is an ES6 javascript module to construct a graph from OSM data and display it on a map.
+Here are ES6 javascript modules to construct a graph from OSM data and display it on a map.
 
 ### Usage
 * Set your [Maptiler API key](https://docs.maptiler.com/cloud/api/authentication-key/) in `key.json`.
